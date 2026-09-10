@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #2e2622;
+  --color-coral: #d26056;
+  --color-coral-deep: #a8433a;
+  --color-gold: #c7a05b;
+  --color-blush: #f5e3dd;
+  --color-ivory: #fdf6f0;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-coral: var(--color-coral);
+  --color-coral-deep: var(--color-coral-deep);
+  --color-gold: var(--color-gold);
+  --color-blush: var(--color-blush);
+  --color-ivory: var(--color-ivory);
+  --font-display: var(--font-playfair);
+  --font-body: var(--font-poppins);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 20s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

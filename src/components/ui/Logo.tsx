@@ -1,20 +1,26 @@
+import Image from "next/image";
+
+const ASPECT_RATIO = 900 / 170;
+
 interface LogoProps {
   variant?: "dark" | "light";
   className?: string;
+  height?: number;
 }
 
-export default function Logo({ variant = "dark", className = "" }: LogoProps) {
-  const markClasses = variant === "light" ? "bg-white/15 text-white" : "bg-coral text-white";
-  const wordmarkClass = variant === "light" ? "text-white" : "text-ink";
+export default function Logo({ variant = "dark", className = "", height = 36 }: LogoProps) {
+  const src = variant === "light" ? "/brand/logo-horizontal-white.png" : "/brand/logo-horizontal-coral.png";
+  const width = Math.round(height * ASPECT_RATIO);
 
   return (
-    <span className={`inline-flex items-center gap-3 ${className}`}>
-      <span
-        className={`flex h-9 w-9 items-center justify-center rounded-lg font-display text-lg font-semibold ${markClasses}`}
-      >
-        T
-      </span>
-      <span className={`font-display text-lg tracking-wide ${wordmarkClass}`}>Tasbir Events</span>
-    </span>
+    <Image
+      src={src}
+      alt="Tasbir Events"
+      width={width}
+      height={height}
+      priority
+      className={className}
+      style={{ height, width: "auto" }}
+    />
   );
 }

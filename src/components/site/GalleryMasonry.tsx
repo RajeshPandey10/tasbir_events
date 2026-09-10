@@ -102,7 +102,7 @@ export default function GalleryMasonry() {
         </div>
       )}
 
-      <GalleryLightbox key={activeItem?._id ?? "closed"} item={activeItem} onClose={() => setActiveItem(null)} />
+      <GalleryLightbox item={activeItem} onClose={() => setActiveItem(null)} />
     </div>
   );
 }

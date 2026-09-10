@@ -4,6 +4,8 @@ import Section from "@/components/ui/Section";
 import ContactForm from "@/components/site/ContactForm";
 import Reveal from "@/components/ui/Reveal";
 import { PAGE_IMAGES } from "@/lib/stockImages";
+import { SOCIAL_LINKS } from "@/lib/social";
+import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -11,6 +13,12 @@ export const metadata: Metadata = {
     "Get in touch with Tasbir Events in Kathmandu for wedding, engagement, and event decoration inquiries — by form, WhatsApp, or social media.",
   alternates: { canonical: "/contact" },
 };
+
+const SOCIAL_ICON_LINKS = [
+  { href: SOCIAL_LINKS.instagram, label: "Instagram", Icon: InstagramIcon },
+  { href: SOCIAL_LINKS.facebook, label: "Facebook", Icon: FacebookIcon },
+  { href: SOCIAL_LINKS.tiktok, label: "TikTok", Icon: TikTokIcon },
+];
 
 export default function ContactPage() {
   return (
@@ -31,25 +39,26 @@ export default function ContactPage() {
             </p>
 
             <div className="flex flex-col gap-3 text-sm text-ink/70">
-              <p>
-                WhatsApp —{" "}
-                <a href="https://wa.me/9779861941354" className="text-coral hover:text-coral-deep">
-                  986-1941354
-                </a>
-              </p>
+              <a href={SOCIAL_LINKS.whatsapp} className="flex items-center gap-2 text-coral hover:text-coral-deep">
+                <WhatsAppIcon className="h-4 w-4" />
+                WhatsApp — {SOCIAL_LINKS.whatsappLabel}
+              </a>
               <p>Kathmandu, Nepal 44600</p>
-              <p>
-                <a href="https://www.instagram.com/tasbir.events" className="text-coral hover:text-coral-deep">
-                  Instagram
-                </a>
-                {" · "}
+            </div>
+
+            <div className="flex items-center gap-3">
+              {SOCIAL_ICON_LINKS.map(({ href, label, Icon }) => (
                 <a
-                  href="https://www.facebook.com/profile.php?id=61590631374369"
-                  className="text-coral hover:text-coral-deep"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-blush text-ink/60 transition-colors hover:border-coral hover:text-coral"
                 >
-                  Facebook
+                  <Icon className="h-4 w-4" />
                 </a>
-              </p>
+              ))}
             </div>
 
             <div className="overflow-hidden rounded-2xl border border-blush">

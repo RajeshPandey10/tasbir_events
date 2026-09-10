@@ -1,11 +1,19 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 const EXPLORE_LINKS = [
   { href: "/services", label: "Services" },
   { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+];
+
+const SOCIAL_ICON_LINKS = [
+  { href: SOCIAL_LINKS.instagram, label: "Instagram", Icon: InstagramIcon },
+  { href: SOCIAL_LINKS.facebook, label: "Facebook", Icon: FacebookIcon },
+  { href: SOCIAL_LINKS.tiktok, label: "TikTok", Icon: TikTokIcon },
 ];
 
 export default function Footer() {
@@ -33,16 +41,26 @@ export default function Footer() {
         <div>
           <p className="text-sm font-medium text-ink">Reach us</p>
           <div className="mt-3 flex flex-col gap-2 text-sm text-ink/70">
-            <a href="https://wa.me/9779861941354" className="hover:text-coral">
-              WhatsApp — 986-1941354
-            </a>
-            <a href="https://www.instagram.com/tasbir.events" className="hover:text-coral">
-              Instagram
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61590631374369" className="hover:text-coral">
-              Facebook
+            <a href={SOCIAL_LINKS.whatsapp} className="flex items-center gap-2 hover:text-coral">
+              <WhatsAppIcon className="h-4 w-4" />
+              WhatsApp — {SOCIAL_LINKS.whatsappLabel}
             </a>
             <p>Kathmandu, Nepal 44600</p>
+          </div>
+
+          <div className="mt-5 flex items-center gap-3">
+            {SOCIAL_ICON_LINKS.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-blush text-ink/60 transition-colors hover:border-coral hover:text-coral"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
           </div>
         </div>
       </div>

@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/" },
   icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
+    icon: "/icon.png?v=2",
+    apple: "/apple-icon.png?v=2",
   },
   openGraph: {
     title: "Tasbir Events — Wedding & Event Decoration in Kathmandu",
@@ -44,11 +44,13 @@ export const metadata: Metadata = {
     siteName: "Tasbir Events",
     locale: "en_US",
     type: "website",
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Tasbir Events" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Tasbir Events — Wedding & Event Decoration in Kathmandu",
     description: "Turning every event into a memory.",
+    images: ["/opengraph-image.png"],
   },
 };
 
@@ -67,9 +69,12 @@ const localBusinessSchema = {
     addressCountry: "NP",
   },
   areaServed: "Kathmandu, Nepal",
+  logo: `${SITE_URL}/icon-512.png`,
+  image: `${SITE_URL}/images/stock/wedding.jpg`,
   sameAs: [
     "https://www.instagram.com/tasbir.events",
     "https://www.facebook.com/profile.php?id=61590631374369",
+    "https://www.tiktok.com/@tasbir.events",
   ],
 };
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import Pill from "@/components/ui/Pill";
 import FramedImage from "@/components/ui/FramedImage";
 import { SkeletonGalleryGrid } from "@/components/ui/Skeleton";
@@ -10,12 +11,17 @@ import { GALLERY_CATEGORIES, GalleryCategory, GalleryItem } from "@/lib/types";
 import { api } from "@/lib/api";
 import { CATEGORY_IMAGES, CATEGORY_IMAGE_LIST } from "@/lib/stockImages";
 
-interface GalleryMasonryProps {
-  initialCategory?: GalleryCategory | "all";
+function isGalleryCategory(value: string | null): value is GalleryCategory {
+  return GALLERY_CATEGORIES.some((c) => c.value === value);
 }
 
-export default function GalleryMasonry({ initialCategory = "all" }: GalleryMasonryProps) {
-  const [category, setCategory] = useState<GalleryCategory | "all">(initialCategory);
+export default function GalleryMasonry() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedCategory = searchParams.get("category");
+  const [category, setCategory] = useState<GalleryCategory | "all">(
+    isGalleryCategory(requestedCategory) ? requestedCategory : "all"
+  );
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
@@ -29,16 +35,21 @@ export default function GalleryMasonry({ initialCategory = "all" }: GalleryMason
       .finally(() => setLoading(false));
   }, [category]);
 
+  const selectCategory = (value: GalleryCategory | "all") => {
+    setCategory(value);
+    router.replace(value === "all" ? "/gallery" : `/gallery?category=${value}`, { scroll: false });
+  };
+
   const fallbackImages = category === "all" ? CATEGORY_IMAGE_LIST : [CATEGORY_IMAGES[category]];
 
   return (
     <div>
       <div className="flex flex-wrap gap-3">
-        <Pill active={category === "all"} onClick={() => setCategory("all")}>
+        <Pill active={category === "all"} onClick={() => selectCategory("all")}>
           All
         </Pill>
         {GALLERY_CATEGORIES.map((c) => (
-          <Pill key={c.value} active={category === c.value} onClick={() => setCategory(c.value)}>
+          <Pill key={c.value} active={category === c.value} onClick={() => selectCategory(c.value)}>
             {c.label}
           </Pill>
         ))}

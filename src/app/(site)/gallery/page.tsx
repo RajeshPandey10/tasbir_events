@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import PageHeader from "@/components/sections/PageHeader";
 import Section from "@/components/ui/Section";
 import GalleryMasonry from "@/components/site/GalleryMasonry";
-import { GalleryCategory } from "@/lib/types";
+import { SkeletonGalleryGrid } from "@/components/ui/Skeleton";
 import { PAGE_IMAGES } from "@/lib/stockImages";
 
 export const metadata: Metadata = {
@@ -12,14 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
 };
 
-interface GalleryPageProps {
-  searchParams: Promise<{ category?: string }>;
-}
-
-export default async function GalleryPage({ searchParams }: GalleryPageProps) {
-  const params = await searchParams;
-  const category = (params.category as GalleryCategory | undefined) ?? "all";
-
+export default function GalleryPage() {
   return (
     <>
       <PageHeader
@@ -30,7 +24,9 @@ export default async function GalleryPage({ searchParams }: GalleryPageProps) {
         imageAlt="String-lit wedding reception table with champagne glasses"
       />
       <Section>
-        <GalleryMasonry initialCategory={category} />
+        <Suspense fallback={<SkeletonGalleryGrid />}>
+          <GalleryMasonry />
+        </Suspense>
       </Section>
     </>
   );

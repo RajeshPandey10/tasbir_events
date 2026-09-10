@@ -33,6 +33,10 @@ export const metadata: Metadata = {
     "Tasbir Events",
   ],
   alternates: { canonical: "/" },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     title: "Tasbir Events — Wedding & Event Decoration in Kathmandu",
     description: "Turning every event into a memory.",

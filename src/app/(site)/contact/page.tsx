@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/sections/PageHeader";
 import Section from "@/components/ui/Section";
 import ContactForm from "@/components/site/ContactForm";
@@ -6,13 +5,13 @@ import Reveal from "@/components/ui/Reveal";
 import { PAGE_IMAGES } from "@/lib/stockImages";
 import { SOCIAL_LINKS } from "@/lib/social";
 import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with Tasbir Events in Kathmandu for wedding, engagement, and event decoration inquiries — by form, WhatsApp, or social media.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata = pageMetadata(
+  "/contact",
+  "Contact",
+  "Get in touch with Tasbir Events in Kathmandu for wedding, engagement, and event decoration inquiries — by form, WhatsApp, or social media."
+);
 
 const SOCIAL_ICON_LINKS = [
   { href: SOCIAL_LINKS.instagram, label: "Instagram", Icon: InstagramIcon },

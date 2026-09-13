@@ -1,16 +1,15 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/sections/PageHeader";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import CTABanner from "@/components/sections/CTABanner";
 import { PAGE_IMAGES } from "@/lib/stockImages";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "Tasbir Events is a Kathmandu-based wedding and event design studio turning every celebration into a memory, from concept through the final flower.",
-  alternates: { canonical: "/about" },
-};
+export const metadata = pageMetadata(
+  "/about",
+  "About",
+  "Tasbir Events is a Kathmandu-based wedding and event design studio turning every celebration into a memory, from concept through the final flower."
+);
 
 export default function AboutPage() {
   return (

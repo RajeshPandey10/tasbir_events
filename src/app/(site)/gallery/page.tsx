@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import PageHeader from "@/components/sections/PageHeader";
 import Section from "@/components/ui/Section";
 import GalleryMasonry from "@/components/site/GalleryMasonry";
 import { SkeletonGalleryGrid } from "@/components/ui/Skeleton";
 import { PAGE_IMAGES } from "@/lib/stockImages";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Gallery",
-  description:
-    "Browse Tasbir Events' portfolio of weddings, engagements, receptions, and celebrations designed across Kathmandu, filterable by event type.",
-  alternates: { canonical: "/gallery" },
-};
+export const metadata = pageMetadata(
+  "/gallery",
+  "Gallery",
+  "Browse Tasbir Events' portfolio of weddings, engagements, receptions, and celebrations designed across Kathmandu, filterable by event type."
+);
 
 export default function GalleryPage() {
   return (

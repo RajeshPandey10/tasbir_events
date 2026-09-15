@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { Trash2, UploadCloud } from "lucide-react";
 import { FormField, fieldInputClasses } from "@/components/ui/FormField";
 import Button from "@/components/ui/Button";
@@ -97,13 +98,20 @@ export default function FrameManager() {
         </FormField>
 
         <FormField label="Frame image (transparent PNG)" htmlFor="frame-file">
-          <input
-            id="frame-file"
-            type="file"
-            accept="image/png,image/webp"
-            onChange={(event) => setFile(event.target.files?.[0] ?? null)}
-            className="text-sm text-ink/70"
-          />
+          <label
+            htmlFor="frame-file"
+            className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-blush bg-blush/20 px-4 py-3 text-center transition-colors hover:border-coral hover:bg-blush/40"
+          >
+            <UploadCloud className="h-4 w-4 text-coral" />
+            <span className="text-sm text-ink/70">{file ? file.name : "Click to choose an image"}</span>
+            <input
+              id="frame-file"
+              type="file"
+              accept="image/png,image/webp"
+              onChange={(event) => setFile(event.target.files?.[0] ?? null)}
+              className="hidden"
+            />
+          </label>
         </FormField>
 
         {error ? <p className="text-sm text-coral-deep md:col-span-2">{error}</p> : null}
@@ -120,26 +128,33 @@ export default function FrameManager() {
         <p className="mt-10 text-sm text-ink/50">No custom frames yet — upload one above.</p>
       ) : (
         <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {frames.map((frame) => (
-            <div
-              key={frame._id}
-              className="overflow-hidden rounded-xl border border-blush bg-[repeating-conic-gradient(#f5e3dd_0_25%,#ffffff_0_50%)] bg-size-[16px_16px]"
-            >
-              <div className="relative aspect-square">
-                <Image src={frame.imageUrl} alt={frame.name} fill className="object-contain" />
-              </div>
-              <div className="flex items-center justify-between bg-white p-3">
-                <p className="truncate text-sm text-ink">{frame.name}</p>
-                <button
-                  onClick={() => setPendingDelete(frame)}
-                  aria-label={`Delete ${frame.name}`}
-                  className="text-ink/40 transition-colors hover:text-coral-deep"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
+          <AnimatePresence initial={false}>
+            {frames.map((frame) => (
+              <motion.div
+                key={frame._id}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden rounded-xl border border-blush bg-[repeating-conic-gradient(#f5e3dd_0_25%,#ffffff_0_50%)] bg-size-[16px_16px] shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="relative aspect-square">
+                  <Image src={frame.imageUrl} alt={frame.name} fill className="object-contain" />
+                </div>
+                <div className="flex items-center justify-between bg-white p-3">
+                  <p className="truncate text-sm text-ink">{frame.name}</p>
+                  <button
+                    onClick={() => setPendingDelete(frame)}
+                    aria-label={`Delete ${frame.name}`}
+                    className="text-ink/40 transition-colors hover:text-coral-deep"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
 

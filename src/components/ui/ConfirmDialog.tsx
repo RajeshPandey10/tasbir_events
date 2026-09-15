@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle } from "lucide-react";
 import Button from "@/components/ui/Button";
 
@@ -40,50 +41,60 @@ export default function ConfirmDialog({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onCancel]);
 
-  if (!open) return null;
-
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-dialog-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 px-6 backdrop-blur-sm"
-      onClick={onCancel}
-    >
-      <div
-        onClick={(event) => event.stopPropagation()}
-        className="flex w-full max-w-sm flex-col gap-4 rounded-2xl bg-white p-6 shadow-xl"
-      >
-        <div className="flex items-start gap-3">
-          {danger ? (
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-coral/10 text-coral-deep">
-              <AlertTriangle className="h-5 w-5" />
-            </span>
-          ) : null}
-          <div>
-            <p id="confirm-dialog-title" className="font-display text-lg text-ink">
-              {title}
-            </p>
-            <p className="mt-1 text-sm text-ink/70">{description}</p>
-          </div>
-        </div>
-
-        <div className="mt-2 flex justify-end gap-3">
-          <Button variant="ghost" size="md" onClick={onCancel} disabled={loading}>
-            {cancelLabel}
-          </Button>
-          <Button
-            ref={confirmRef}
-            variant="primary"
-            size="md"
-            onClick={onConfirm}
-            disabled={loading}
-            className={danger ? "bg-coral-deep hover:bg-coral-deep" : ""}
+    <AnimatePresence>
+      {open ? (
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="confirm-dialog-title"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 px-6 backdrop-blur-sm"
+          onClick={onCancel}
+        >
+          <motion.div
+            onClick={(event) => event.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.95, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="flex w-full max-w-sm flex-col gap-4 rounded-2xl bg-white p-6 shadow-xl"
           >
-            {loading ? "Working..." : confirmLabel}
-          </Button>
-        </div>
-      </div>
-    </div>
+            <div className="flex items-start gap-3">
+              {danger ? (
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-coral/10 text-coral-deep">
+                  <AlertTriangle className="h-5 w-5" />
+                </span>
+              ) : null}
+              <div>
+                <p id="confirm-dialog-title" className="font-display text-lg text-ink">
+                  {title}
+                </p>
+                <p className="mt-1 text-sm text-ink/70">{description}</p>
+              </div>
+            </div>
+
+            <div className="mt-2 flex justify-end gap-3">
+              <Button variant="ghost" size="md" onClick={onCancel} disabled={loading}>
+                {cancelLabel}
+              </Button>
+              <Button
+                ref={confirmRef}
+                variant="primary"
+                size="md"
+                onClick={onConfirm}
+                disabled={loading}
+                className={danger ? "bg-coral-deep hover:bg-coral-deep" : ""}
+              >
+                {loading ? "Working..." : confirmLabel}
+              </Button>
+            </div>
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }

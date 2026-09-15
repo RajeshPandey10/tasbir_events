@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Star, Trash2, UploadCloud, X } from "lucide-react";
 import { FormField, fieldInputClasses } from "@/components/ui/FormField";
 import Button from "@/components/ui/Button";
@@ -151,14 +152,23 @@ export default function GalleryManager() {
         </div>
 
         <FormField label="Photos" htmlFor="gallery-images">
-          <input
-            id="gallery-images"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFilesChange}
-            className="text-sm text-ink/70"
-          />
+          <label
+            htmlFor="gallery-images"
+            className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-blush bg-blush/20 px-4 py-6 text-center transition-colors hover:border-coral hover:bg-blush/40"
+          >
+            <UploadCloud className="h-5 w-5 text-coral" />
+            <span className="text-sm text-ink/70">
+              {files.length > 0 ? `${files.length} photo${files.length > 1 ? "s" : ""} selected` : "Click to choose photos"}
+            </span>
+            <input
+              id="gallery-images"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFilesChange}
+              className="hidden"
+            />
+          </label>
         </FormField>
         <p className="-mt-4 text-xs text-ink/50">JPG, PNG, or WebP — up to 8MB each, up to 10 photos per entry.</p>
 
@@ -256,41 +266,51 @@ export default function GalleryManager() {
         <SkeletonGalleryGrid count={4} />
       ) : (
         <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {items.map((item) => (
-            <div key={item._id} className="overflow-hidden rounded-xl border border-blush bg-white">
-              <div className="relative aspect-square">
-                <FramedImage images={item.images} alt={item.title} frameType={item.frameType} frameImageUrl={item.frameImageUrl} />
-                {item.images.length > 1 ? (
-                  <span className="absolute bottom-2 right-2 rounded-full bg-ink/60 px-2 py-0.5 text-xs text-white">
-                    {item.images.length} photos
-                  </span>
-                ) : null}
-              </div>
-              <div className="p-3">
-                <p className="truncate text-sm text-ink">{item.title}</p>
-                <p className="text-xs text-ink/50">{item.category}</p>
-                <div className="mt-2 flex items-center justify-between">
-                  <button
-                    onClick={() => handleToggleFeatured(item)}
-                    aria-label={item.isFeatured ? "Remove from homepage" : "Feature on homepage"}
-                    className={`flex items-center gap-1 text-xs transition-colors ${
-                      item.isFeatured ? "text-gold" : "text-ink/40 hover:text-gold"
-                    }`}
-                  >
-                    <Star className="h-3.5 w-3.5" fill={item.isFeatured ? "currentColor" : "none"} />
-                    {item.isFeatured ? "Featured" : "Feature"}
-                  </button>
-                  <button
-                    onClick={() => setPendingDelete(item)}
-                    aria-label="Delete"
-                    className="text-ink/40 transition-colors hover:text-coral-deep"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
+          <AnimatePresence initial={false}>
+            {items.map((item) => (
+              <motion.div
+                key={item._id}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden rounded-xl border border-blush bg-white shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="relative aspect-square">
+                  <FramedImage images={item.images} alt={item.title} frameType={item.frameType} frameImageUrl={item.frameImageUrl} />
+                  {item.images.length > 1 ? (
+                    <span className="absolute bottom-2 right-2 rounded-full bg-ink/60 px-2 py-0.5 text-xs text-white">
+                      {item.images.length} photos
+                    </span>
+                  ) : null}
                 </div>
-              </div>
-            </div>
-          ))}
+                <div className="p-3">
+                  <p className="truncate text-sm text-ink">{item.title}</p>
+                  <p className="text-xs text-ink/50">{item.category}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <button
+                      onClick={() => handleToggleFeatured(item)}
+                      aria-label={item.isFeatured ? "Remove from homepage" : "Feature on homepage"}
+                      className={`flex items-center gap-1 text-xs transition-colors ${
+                        item.isFeatured ? "text-gold" : "text-ink/40 hover:text-gold"
+                      }`}
+                    >
+                      <Star className="h-3.5 w-3.5" fill={item.isFeatured ? "currentColor" : "none"} />
+                      {item.isFeatured ? "Featured" : "Feature"}
+                    </button>
+                    <button
+                      onClick={() => setPendingDelete(item)}
+                      aria-label="Delete"
+                      className="text-ink/40 transition-colors hover:text-coral-deep"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
 

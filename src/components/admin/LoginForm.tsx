@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { LogIn } from "lucide-react";
 import { FormField, fieldInputClasses } from "@/components/ui/FormField";
 import Button from "@/components/ui/Button";
@@ -31,7 +32,13 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-5 rounded-2xl border border-blush bg-white p-8">
+    <motion.form
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      onSubmit={handleSubmit}
+      className="flex w-full max-w-sm flex-col gap-5 rounded-2xl border border-blush bg-white p-8 shadow-sm"
+    >
       <FormField label="Email" htmlFor="email">
         <input id="email" name="email" type="email" autoComplete="email" required className={fieldInputClasses()} />
       </FormField>
@@ -47,12 +54,24 @@ export default function LoginForm() {
         />
       </FormField>
 
-      {error ? <p className="text-sm text-coral-deep">{error}</p> : null}
+      {error ? (
+        <motion.p
+          initial={{ opacity: 0, x: -6 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="text-sm text-coral-deep"
+        >
+          {error}
+        </motion.p>
+      ) : null}
 
       <Button type="submit" disabled={loading} className="w-full">
-        <LogIn className="h-4 w-4" />
+        {loading ? (
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+        ) : (
+          <LogIn className="h-4 w-4" />
+        )}
         {loading ? "Signing in..." : "Sign in"}
       </Button>
-    </form>
+    </motion.form>
   );
 }

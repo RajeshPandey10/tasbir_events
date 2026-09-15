@@ -113,9 +113,9 @@ function LightboxContent({ item, onClose }: { item: GalleryItem; onClose: () => 
         </button>
       ) : null}
 
-      <div onClick={(event) => event.stopPropagation()} className="mt-4 flex flex-col items-center gap-3">
+      <div onClick={(event) => event.stopPropagation()} className="mt-4 flex w-full max-w-full flex-col items-center gap-3">
         {hasMultiple ? (
-          <div className="flex gap-2">
+          <div className="flex max-w-full gap-2 overflow-x-auto px-4">
             {item.images.map((image, thumbIndex) => (
               <button
                 key={image.cloudinaryId + thumbIndex}

@@ -21,9 +21,9 @@ export default function ProtectedAdminLayout({ children }: { children: React.Rea
 
   return (
     <ToastProvider>
-      <div className="flex min-h-screen bg-ivory">
+      <div className="flex min-h-screen flex-col bg-ivory md:flex-row">
         <AdminSidebar adminName={admin.name} />
-        <div className="flex-1 px-10 py-10">{children}</div>
+        <div className="min-w-0 flex-1 px-4 py-6 md:px-10 md:py-10">{children}</div>
       </div>
     </ToastProvider>
   );

@@ -49,16 +49,16 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 rounded-2xl border border-blush bg-white p-8">
       <div className="grid gap-6 md:grid-cols-2">
         <FormField label="Name" htmlFor="name">
-          <input id="name" name="name" required className={fieldInputClasses()} />
+          <input id="name" name="name" autoComplete="name" required className={fieldInputClasses()} />
         </FormField>
         <FormField label="Phone" htmlFor="phone">
-          <input id="phone" name="phone" type="tel" required className={fieldInputClasses()} />
+          <input id="phone" name="phone" type="tel" autoComplete="tel" required className={fieldInputClasses()} />
         </FormField>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <FormField label="Email" htmlFor="email">
-          <input id="email" name="email" type="email" required className={fieldInputClasses()} />
+          <input id="email" name="email" type="email" autoComplete="email" required className={fieldInputClasses()} />
         </FormField>
         <FormField label="Topic" htmlFor="topic">
           <select id="topic" name="topic" required defaultValue="" className={fieldInputClasses()}>

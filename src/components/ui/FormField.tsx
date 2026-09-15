@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 const fieldClasses =
-  "rounded-md border border-blush bg-white px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-coral";
+  "rounded-md border border-blush bg-white px-4 py-3 text-base text-ink outline-none transition-colors focus:border-coral md:text-sm";
 
 interface FormFieldProps {
   label: string;

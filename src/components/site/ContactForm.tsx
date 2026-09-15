@@ -16,6 +16,7 @@ export default function ContactForm() {
     event.preventDefault();
     setStatus("submitting");
     setErrorMessage("");
+    
 
     const form = event.currentTarget;
     const data = {
